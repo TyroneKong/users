@@ -9,6 +9,7 @@ const PORT = 8004 || process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
+// connection to sql DB
 const db = mysql.createConnection({
   user: "root",
   host: "localhost",
