@@ -12,10 +12,14 @@ const Form: FC = () => {
 
   const formRef = useRef<HTMLFormElement>(null);
 
+  const DBCall = axios.create({
+    baseURL: "http://localhost:8004",
+  });
+
   // get all users
   const getAllUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:8004/users");
+      const response = await DBCall.get("/users");
       setUsers(response.data);
     } catch (error) {
       console.log(error);
@@ -30,7 +34,7 @@ const Form: FC = () => {
   const addUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8004/create", {
+      const response = await DBCall.post("/create", {
         name: name,
         age: age,
         country: country,
@@ -48,7 +52,7 @@ const Form: FC = () => {
   ) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:8004/update/${id}`, {
+      const response = await DBCall.put(`/update/${id}`, {
         name: name,
         age: age,
         country: country,
@@ -64,7 +68,7 @@ const Form: FC = () => {
   //delete a user
   const deleteUser = async (id: number) => {
     try {
-      const response = await axios.delete(`http://localhost:8004/delete/${id}`);
+      const response = await DBCall.delete(`/delete/${id}`);
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -112,7 +116,7 @@ const Form: FC = () => {
         ? users.map((user: any, i) => {
             return (
               <div
-                className="text-2xl flex-wrap text-amber-900 gap-10 flex justify-evenly items-center border-black mt-10  shadow-xl mb-10"
+                className="text-2xl flex-wrap text-amber-900 gap-10 flex justify-evenly items-center border-black shadow-xl mb-10"
                 key={i}
               >
                 <>
